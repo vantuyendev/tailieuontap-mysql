@@ -1,0 +1,16 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "mysql-288ed145-tuongvantuyen2006.h.aivencloud.com",
+      "port": 16302,
+      "driver": "MySQL",
+      "name": "Aiven MySQL",
+      "database": "defaultdb",
+      "username": "avnadmin"
+    }
+  ]
+}
