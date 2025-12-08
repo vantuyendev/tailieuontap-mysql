@@ -2,15 +2,20 @@
   "sqltools.connections": [
     {
       "mysqlOptions": {
-        "authProtocol": "default"
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
       },
+      "ssh": "Disabled",
       "previewLimit": 50,
       "server": "mysql-288ed145-tuongvantuyen2006.h.aivencloud.com",
       "port": 16302,
+      "sshOptions": {
+        "port": 22
+      },
       "driver": "MySQL",
-      "name": "Aiven MySQL",
       "database": "defaultdb",
-      "username": "avnadmin"
+      "username": "avnadmin",
+      "name": "avnadmin"
     }
   ]
 }
