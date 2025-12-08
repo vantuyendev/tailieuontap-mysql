@@ -5,7 +5,6 @@ USE classicmodels;
 
 DROP TRIGGER IF EXISTS before_product_insert;
 
-DELIMITER $$
 CREATE TRIGGER before_product_insert
 BEFORE INSERT ON products
 FOR EACH ROW
@@ -24,8 +23,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Giá bán lẻ (MSRP) phải lớn hơn hoặc bằng giá mua (buyPrice)';
     END IF;
-END$$
-DELIMITER ;
+END;
 
 
 -- TRIGGER 2: AFTER INSERT - Ghi log khi có đơn hàng mới
@@ -44,22 +42,19 @@ CREATE TABLE order_logs (
 
 DROP TRIGGER IF EXISTS after_order_insert;
 
-DELIMITER $$
 CREATE TRIGGER after_order_insert
 AFTER INSERT ON orders
 FOR EACH ROW
 BEGIN
     INSERT INTO order_logs(orderNumber, customerNumber, action, oldStatus, newStatus, userName)
     VALUES(NEW.orderNumber, NEW.customerNumber, 'INSERT', NULL, NEW.status, USER());
-END$$
-DELIMITER ;
+END;
 
 
 -- TRIGGER 3: BEFORE UPDATE - Cập nhật tồn kho khi có chi tiết đơn hàng mới
 
 DROP TRIGGER IF EXISTS before_orderdetail_update;
 
-DELIMITER $$
 CREATE TRIGGER before_orderdetail_update
 BEFORE UPDATE ON orderdetails
 FOR EACH ROW
@@ -89,15 +84,13 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Giá sản phẩm phải lớn hơn 0';
     END IF;
-END$$
-DELIMITER ;
+END;
 
 
 -- TRIGGER 4: AFTER UPDATE - Ghi log khi trạng thái đơn hàng thay đổi
 
 DROP TRIGGER IF EXISTS after_order_update;
 
-DELIMITER $$
 CREATE TRIGGER after_order_update
 AFTER UPDATE ON orders
 FOR EACH ROW
@@ -106,8 +99,7 @@ BEGIN
         INSERT INTO order_logs(orderNumber, customerNumber, action, oldStatus, newStatus, userName)
         VALUES(NEW.orderNumber, NEW.customerNumber, 'UPDATE', OLD.status, NEW.status, USER());
     END IF;
-END$$
-DELIMITER ;
+END;
 
 
 -- TRIGGER 5: BEFORE DELETE - Ngăn chặn xóa khách hàng có đơn hàng
@@ -115,7 +107,6 @@ DELIMITER ;
 
 DROP TRIGGER IF EXISTS before_customer_delete;
 
-DELIMITER $$
 CREATE TRIGGER before_customer_delete
 BEFORE DELETE ON customers
 FOR EACH ROW
@@ -131,8 +122,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Không thể xóa khách hàng đã có đơn hàng. Vui lòng xóa đơn hàng trước.';
     END IF;
-END$$
-DELIMITER ;
+END;
 
 -- TRIGGER 6: AFTER DELETE - Ghi log khi xóa nhân viên
 
@@ -150,7 +140,8 @@ CREATE TABLE employee_delete_logs (
 
 DROP TRIGGER IF EXISTS after_employee_delete;
 
-DELIMITER $$
+DROP TRIGGER IF EXISTS after_employee_delete;
+
 CREATE TRIGGER after_employee_delete
 AFTER DELETE ON employees
 FOR EACH ROW
@@ -171,6 +162,4 @@ BEGIN
         OLD.jobTitle,
         USER()
     );
-END$$
-DELIMITER ;
-
+END;
