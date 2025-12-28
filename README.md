@@ -107,15 +107,43 @@ SELECT column1, column2 FROM table_name;
 ```sql
 SELECT * FROM customers;
 ```
+**Kết quả:**
+```
++-------------+------------------+----------------+---------+---------+
+| customer_id | customer_name    | contact_name   | city    | country |
++-------------+------------------+----------------+---------+---------+
+| 1           | Nguyen Van A     | A Nguyen       | Hanoi   | Vietnam |
+| 2           | Tran Thi B       | B Tran         | HCM     | Vietnam |
+| 3           | Le Van C         | C Le           | Da Nang | Vietnam |
++-------------+------------------+----------------+---------+---------+
+```
 
 ### SELECT DISTINCT (loại bỏ trùng lặp):
 ```sql
 SELECT DISTINCT country FROM customers;
 ```
+**Kết quả:**
+```
++-----------+
+| country   |
++-----------+
+| Vietnam   |
+| Thailand  |
+| Singapore |
++-----------+
+```
 
 ### Đếm số giá trị khác nhau:
 ```sql
 SELECT COUNT(DISTINCT country) FROM customers;
+```
+**Kết quả:**
+```
++---------------------------+
+| COUNT(DISTINCT country)   |
++---------------------------+
+| 3                         |
++---------------------------+
 ```
 
 ---
@@ -127,11 +155,31 @@ SELECT COUNT(DISTINCT country) FROM customers;
 SELECT * FROM customers
 WHERE country = 'Vietnam';
 ```
+**Kết quả:**
+```
++-------------+------------------+----------------+---------+---------+
+| customer_id | customer_name    | contact_name   | city    | country |
++-------------+------------------+----------------+---------+---------+
+| 1           | Nguyen Van A     | A Nguyen       | Hanoi   | Vietnam |
+| 2           | Tran Thi B       | B Tran         | HCM     | Vietnam |
+| 3           | Le Van C         | C Le           | Da Nang | Vietnam |
++-------------+------------------+----------------+---------+---------+
+```
 
 ### Ví dụ với số:
 ```sql
 SELECT * FROM products
 WHERE price > 50;
+```
+**Kết quả:**
+```
++------------+--------------+-------+
+| product_id | product_name | price |
++------------+--------------+-------+
+| 10         | Laptop       | 850   |
+| 15         | Smartphone   | 650   |
+| 20         | Tablet       | 450   |
++------------+--------------+-------+
 ```
 
 ### Ví dụ với chuỗi (phải có dấu ngoặc đơn):
@@ -188,17 +236,50 @@ WHERE country = 'Vietnam' AND (city = 'Hanoi' OR city = 'HCM');
 SELECT * FROM customers
 ORDER BY country;
 ```
+**Kết quả:**
+```
++-------------+------------------+-----------+
+| customer_id | customer_name    | country   |
++-------------+------------------+-----------+
+| 5           | Lee Ming         | Singapore |
+| 4           | Somchai P.       | Thailand  |
+| 1           | Nguyen Van A     | Vietnam   |
+| 2           | Tran Thi B       | Vietnam   |
++-------------+------------------+-----------+
+```
 
 ### Sắp xếp giảm dần:
 ```sql
 SELECT * FROM customers
 ORDER BY country DESC;
 ```
+**Kết quả:**
+```
++-------------+------------------+-----------+
+| customer_id | customer_name    | country   |
++-------------+------------------+-----------+
+| 1           | Nguyen Van A     | Vietnam   |
+| 2           | Tran Thi B       | Vietnam   |
+| 4           | Somchai P.       | Thailand  |
+| 5           | Lee Ming         | Singapore |
++-------------+------------------+-----------+
+```
 
 ### Sắp xếp nhiều cột:
 ```sql
 SELECT * FROM customers
 ORDER BY country ASC, customer_name DESC;
+```
+**Kết quả:**
+```
++-------------+------------------+-----------+
+| customer_id | customer_name    | country   |
++-------------+------------------+-----------+
+| 5           | Lee Ming         | Singapore |
+| 4           | Somchai P.       | Thailand  |
+| 2           | Tran Thi B       | Vietnam   |
+| 1           | Nguyen Van A     | Vietnam   |
++-------------+------------------+-----------+
 ```
 
 ---
@@ -209,6 +290,10 @@ ORDER BY country ASC, customer_name DESC;
 ```sql
 INSERT INTO customers (customer_name, contact_name, city, country)
 VALUES ('Nguyen Van A', 'A Nguyen', 'Hanoi', 'Vietnam');
+```
+**Kết quả:**
+```
+Query OK, 1 row affected (0.01 sec)
 ```
 
 ### Insert tất cả cột:
@@ -254,6 +339,11 @@ UPDATE customers
 SET contact_name = 'Nguyen Van B', city = 'Hanoi'
 WHERE customer_id = 1;
 ```
+**Kết quả:**
+```
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+```
 
 ### Update tất cả dòng (NGUY HIỂM - cẩn thận!):
 ```sql
@@ -272,6 +362,10 @@ SET country = 'Vietnam';
 DELETE FROM customers
 WHERE customer_name = 'Nguyen Van A';
 ```
+**Kết quả:**
+```
+Query OK, 1 row affected (0.01 sec)
+```
 
 ### Xóa tất cả dòng (NGUY HIỂM!):
 ```sql
@@ -287,13 +381,34 @@ DELETE FROM customers;
 ### Giới hạn số dòng kết quả:
 ```sql
 SELECT * FROM customers
-LIMIT 10;
+LIMIT 3;
+```
+**Kết quả:**
+```
++-------------+------------------+----------------+---------+---------+
+| customer_id | customer_name    | contact_name   | city    | country |
++-------------+------------------+----------------+---------+---------+
+| 1           | Nguyen Van A     | A Nguyen       | Hanoi   | Vietnam |
+| 2           | Tran Thi B       | B Tran         | HCM     | Vietnam |
+| 3           | Le Van C         | C Le           | Da Nang | Vietnam |
++-------------+------------------+----------------+---------+---------+
+3 rows in set (0.00 sec)
 ```
 
 ### Với OFFSET (bỏ qua n dòng đầu):
 ```sql
 SELECT * FROM customers
-LIMIT 5 OFFSET 10;
+LIMIT 2 OFFSET 2;
+```
+**Kết quả:**
+```
++-------------+------------------+----------------+---------+---------+
+| customer_id | customer_name    | contact_name   | city    | country |
++-------------+------------------+----------------+---------+---------+
+| 3           | Le Van C         | C Le           | Da Nang | Vietnam |
+| 4           | Somchai P.       | S Somchai      | Bangkok | Thailand|
++-------------+------------------+----------------+---------+---------+
+2 rows in set (0.00 sec)
 ```
 
 ### Cú pháp ngắn gọn:
@@ -311,11 +426,27 @@ LIMIT 10, 5;  -- Bỏ qua 10 dòng, lấy 5 dòng tiếp theo
 SELECT MIN(price) AS smallest_price
 FROM products;
 ```
+**Kết quả:**
+```
++----------------+
+| smallest_price |
++----------------+
+| 10.00          |
++----------------+
+```
 
 ### Tìm giá trị lớn nhất:
 ```sql
 SELECT MAX(price) AS largest_price
 FROM products;
+```
+**Kết quả:**
+```
++---------------+
+| largest_price |
++---------------+
+| 850.00        |
++---------------+
 ```
 
 ### Kết hợp với WHERE:
@@ -333,20 +464,52 @@ WHERE category_id = 1;
 ```sql
 SELECT COUNT(*) FROM customers;
 ```
+**Kết quả:**
+```
++----------+
+| COUNT(*) |
++----------+
+| 25       |
++----------+
+```
 
 ### COUNT DISTINCT:
 ```sql
 SELECT COUNT(DISTINCT country) FROM customers;
+```
+**Kết quả:**
+```
++---------------------------+
+| COUNT(DISTINCT country)   |
++---------------------------+
+| 3                         |
++---------------------------+
 ```
 
 ### AVG - Giá trị trung bình:
 ```sql
 SELECT AVG(price) FROM products;
 ```
+**Kết quả:**
+```
++------------+
+| AVG(price) |
++------------+
+| 145.50     |
++------------+
+```
 
 ### SUM - Tổng:
 ```sql
 SELECT SUM(quantity) FROM order_details;
+```
+**Kết quả:**
+```
++----------------+
+| SUM(quantity)  |
++----------------+
+| 1250           |
++----------------+
 ```
 
 ### Kết hợp nhiều hàm:
@@ -522,6 +685,17 @@ SELECT orders.order_id, customers.customer_name
 FROM orders
 INNER JOIN customers ON orders.customer_id = customers.customer_id;
 ```
+**Kết quả:**
+```
++----------+------------------+
+| order_id | customer_name    |
++----------+------------------+
+| 1001     | Nguyen Van A     |
+| 1002     | Tran Thi B       |
+| 1003     | Nguyen Van A     |
+| 1004     | Le Van C         |
++----------+------------------+
+```
 
 ### LEFT JOIN (LEFT OUTER JOIN):
 Trả về tất cả dòng từ bảng trái, và các dòng khớp từ bảng phải.
@@ -568,6 +742,18 @@ UNION
 SELECT city FROM suppliers
 ORDER BY city;
 ```
+**Kết quả:**
+```
++-----------+
+| city      |
++-----------+
+| Bangkok   |
+| Da Nang   |
+| Hanoi     |
+| HCM       |
+| Singapore |
++-----------+
+```
 
 ### UNION ALL (giữ trùng lặp):
 ```sql
@@ -602,6 +788,16 @@ SELECT country, COUNT(*) AS total
 FROM customers
 GROUP BY country;
 ```
+**Kết quả:**
+```
++-----------+-------+
+| country   | total |
++-----------+-------+
+| Vietnam   | 15    |
+| Thailand  | 7     |
+| Singapore | 3     |
++-----------+-------+
+```
 
 ### GROUP BY với nhiều cột:
 ```sql
@@ -628,6 +824,15 @@ SELECT country, COUNT(*) AS total
 FROM customers
 GROUP BY country
 HAVING COUNT(*) > 5;
+```
+**Kết quả:**
+```
++-----------+-------+
+| country   | total |
++-----------+-------+
+| Vietnam   | 15    |
+| Thailand  | 7     |
++-----------+-------+
 ```
 
 ### HAVING với WHERE:
@@ -791,25 +996,54 @@ SELECT * FROM customers;
 ```sql
 CREATE DATABASE my_database;
 ```
+**Kết quả:**
+```
+Query OK, 1 row affected (0.01 sec)
+```
 
 ### Xóa database:
 ```sql
 DROP DATABASE my_database;
+```
+**Kết quả:**
+```
+Query OK, 0 rows affected (0.02 sec)
 ```
 
 ### Hiển thị tất cả databases:
 ```sql
 SHOW DATABASES;
 ```
+**Kết quả:**
+```
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| my_database        |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+```
 
 ### Chọn database để sử dụng:
 ```sql
 USE my_database;
 ```
+**Kết quả:**
+```
+Database changed
+```
 
 ### Tạo database nếu chưa tồn tại:
 ```sql
 CREATE DATABASE IF NOT EXISTS my_database;
+```
+**Kết quả:**
+```
+Query OK, 1 row affected, 1 warning (0.00 sec)
 ```
 
 ---
@@ -842,17 +1076,31 @@ DROP TABLE IF EXISTS customers;
 ```sql
 TRUNCATE TABLE customers;
 ```
+**Kết quả:**
+```
+Query OK, 0 rows affected (0.02 sec)
+```
 
 ### Thêm cột:
 ```sql
 ALTER TABLE customers
 ADD email VARCHAR(100);
 ```
+**Kết quả:**
+```
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+```
 
 ### Xóa cột:
 ```sql
 ALTER TABLE customers
 DROP COLUMN email;
+```
+**Kết quả:**
+```
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 ### Đổi tên cột:
@@ -870,13 +1118,42 @@ MODIFY COLUMN email VARCHAR(200);
 ### Hiển thị cấu trúc bảng:
 ```sql
 DESCRIBE customers;
--- hoặc
+```
+**Kết quả:**
+```
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| customer_id   | int          | NO   | PRI | NULL    | auto_increment |
+| customer_name | varchar(100) | NO   |     | NULL    |                |
+| contact_name  | varchar(100) | YES  |     | NULL    |                |
+| city          | varchar(50)  | YES  |     | NULL    |                |
+| country       | varchar(50)  | YES  |     | Vietnam |                |
+| created_at    | timestamp    | YES  |     | CURRENT_TIMESTAMP |      |
++---------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+```
+
+```sql
 SHOW COLUMNS FROM customers;
 ```
+**Kết quả tương tự DESCRIBE**
 
 ### Hiển thị tất cả bảng:
 ```sql
 SHOW TABLES;
+```
+**Kết quả:**
+```
++------------------------+
+| Tables_in_my_database  |
++------------------------+
+| customers              |
+| orders                 |
+| products               |
+| suppliers              |
++------------------------+
+4 rows in set (0.00 sec)
 ```
 
 ---
@@ -1170,6 +1447,17 @@ DROP INDEX idx_lastname;
 ```sql
 SHOW INDEX FROM persons;
 ```
+**Kết quả:**
+```
++---------+------------+---------------+--------------+-------------+
+| Table   | Non_unique | Key_name      | Seq_in_index | Column_name |
++---------+------------+---------------+--------------+-------------+
+| persons | 0          | PRIMARY       | 1            | id          |
+| persons | 0          | idx_email     | 1            | email       |
+| persons | 1          | idx_lastname  | 1            | last_name   |
++---------+------------+---------------+--------------+-------------+
+3 rows in set (0.00 sec)
+```
 
 ---
 
@@ -1273,22 +1561,54 @@ SELECT CHAR_LENGTH('Hello');  -- 5
 
 ### CONCAT() - Nối chuỗi:
 ```sql
-SELECT CONCAT('Hello', ' ', 'World');  -- Hello World
+SELECT CONCAT('Hello', ' ', 'World');
+```
+**Kết quả:**
+```
++--------------------------------+
+| CONCAT('Hello', ' ', 'World')  |
++--------------------------------+
+| Hello World                    |
++--------------------------------+
 ```
 
 ### CONCAT_WS() - Nối chuỗi với separator:
 ```sql
-SELECT CONCAT_WS('-', '2023', '12', '01');  -- 2023-12-01
+SELECT CONCAT_WS('-', '2023', '12', '01');
+```
+**Kết quả:**
+```
++--------------------------------------+
+| CONCAT_WS('-', '2023', '12', '01')   |
++--------------------------------------+
+| 2023-12-01                           |
++--------------------------------------+
 ```
 
 ### LOWER() - Chuyển thành chữ thường:
 ```sql
-SELECT LOWER('HELLO');  -- hello
+SELECT LOWER('HELLO');
+```
+**Kết quả:**
+```
++------------------+
+| LOWER('HELLO')   |
++------------------+
+| hello            |
++------------------+
 ```
 
 ### UPPER() - Chuyển thành chữ HOA:
 ```sql
-SELECT UPPER('hello');  -- HELLO
+SELECT UPPER('hello');
+```
+**Kết quả:**
+```
++------------------+
+| UPPER('hello')   |
++------------------+
+| HELLO            |
++------------------+
 ```
 
 ### SUBSTRING() - Lấy chuỗi con:
@@ -1367,17 +1687,41 @@ SELECT FLOOR(4.9);  -- 4
 
 ### ROUND() - Làm tròn:
 ```sql
-SELECT ROUND(4.567, 2);  -- 4.57
+SELECT ROUND(4.567, 2);
+```
+**Kết quả:**
+```
++-------------------+
+| ROUND(4.567, 2)   |
++-------------------+
+| 4.57              |
++-------------------+
 ```
 
 ### POW() hoặc POWER() - Lũy thừa:
 ```sql
-SELECT POW(2, 3);  -- 8
+SELECT POW(2, 3);
+```
+**Kết quả:**
+```
++-------------+
+| POW(2, 3)   |
++-------------+
+| 8           |
++-------------+
 ```
 
 ### SQRT() - Căn bậc 2:
 ```sql
-SELECT SQRT(16);  -- 4
+SELECT SQRT(16);
+```
+**Kết quả:**
+```
++------------+
+| SQRT(16)   |
++------------+
+| 4          |
++------------+
 ```
 
 ### MOD() - Chia lấy dư:
@@ -1411,17 +1755,41 @@ SELECT TRUNCATE(4.567, 2);  -- 4.56
 
 ### NOW() - Ngày giờ hiện tại:
 ```sql
-SELECT NOW();  -- 2023-12-01 10:30:45
+SELECT NOW();
+```
+**Kết quả:**
+```
++---------------------+
+| NOW()               |
++---------------------+
+| 2025-12-28 10:30:45 |
++---------------------+
 ```
 
 ### CURDATE() - Ngày hiện tại:
 ```sql
-SELECT CURDATE();  -- 2023-12-01
+SELECT CURDATE();
+```
+**Kết quả:**
+```
++------------+
+| CURDATE()  |
++------------+
+| 2025-12-28 |
++------------+
 ```
 
 ### CURTIME() - Giờ hiện tại:
 ```sql
-SELECT CURTIME();  -- 10:30:45
+SELECT CURTIME();
+```
+**Kết quả:**
+```
++------------+
+| CURTIME()  |
++------------+
+| 10:30:45   |
++------------+
 ```
 
 ### DATE() - Trích xuất phần ngày:
@@ -1467,8 +1835,27 @@ SELECT DATEDIFF('2023-12-31', '2023-12-01');  -- 30
 
 ### DATE_FORMAT() - Định dạng ngày:
 ```sql
-SELECT DATE_FORMAT('2023-12-01', '%d/%m/%Y');  -- 01/12/2023
-SELECT DATE_FORMAT(NOW(), '%W, %M %d, %Y');    -- Friday, December 01, 2023
+SELECT DATE_FORMAT('2023-12-01', '%d/%m/%Y');
+```
+**Kết quả:**
+```
++---------------------------------------------+
+| DATE_FORMAT('2023-12-01', '%d/%m/%Y')       |
++---------------------------------------------+
+| 01/12/2023                                  |
++---------------------------------------------+
+```
+
+```sql
+SELECT DATE_FORMAT(NOW(), '%W, %M %d, %Y');
+```
+**Kết quả:**
+```
++-------------------------------------------+
+| DATE_FORMAT(NOW(), '%W, %M %d, %Y')       |
++-------------------------------------------+
+| Saturday, December 28, 2025               |
++-------------------------------------------+
 ```
 
 ### Các format specifiers:
@@ -1601,6 +1988,16 @@ DROP TRIGGER IF EXISTS before_customer_insert;
 ```sql
 SHOW TRIGGERS;
 ```
+**Kết quả:**
+```
++---------------------------+--------+-----------+------------------------------+
+| Trigger                   | Event  | Table     | Statement                    |
++---------------------------+--------+-----------+------------------------------+
+| before_customer_insert    | INSERT | customers | SET NEW.created_at = NOW()   |
+| after_order_insert        | INSERT | orders    | INSERT INTO order_log...     |
++---------------------------+--------+-----------+------------------------------+
+2 rows in set (0.00 sec)
+```
 
 ---
 
@@ -1680,6 +2077,16 @@ REVOKE ALL PRIVILEGES ON database_name.* FROM 'username'@'localhost';
 ```sql
 SHOW GRANTS FOR 'username'@'localhost';
 ```
+**Kết quả:**
+```
++-----------------------------------------------------------------------+
+| Grants for username@localhost                                         |
++-----------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `username`@`localhost`                          |
+| GRANT ALL PRIVILEGES ON `database_name`.* TO `username`@`localhost`   |
++-----------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+```
 
 ### Xóa user:
 ```sql
@@ -1739,6 +2146,15 @@ INTO TABLE customers;
 ### EXPLAIN - Phân tích câu query:
 ```sql
 EXPLAIN SELECT * FROM customers WHERE country = 'Vietnam';
+```
+**Kết quả:**
+```
++----+-------------+-----------+------+---------------+------+---------+------+------+-------------+
+| id | select_type | table     | type | possible_keys | key  | key_len | ref  | rows | Extra       |
++----+-------------+-----------+------+---------------+------+---------+------+------+-------------+
+| 1  | SIMPLE      | customers | ALL  | NULL          | NULL | NULL    | NULL | 25   | Using where |
++----+-------------+-----------+------+---------------+------+---------+------+------+-------------+
+1 row in set (0.00 sec)
 ```
 
 ### Optimize table:
@@ -1964,15 +2380,3 @@ FROM table1
 - ✓ Transactions và user management
 - ✓ Tips tối ưu hóa performance
 
-**Lời khuyên cuối:**
-1. Thực hành thường xuyên
-2. Luôn dùng WHERE với UPDATE/DELETE
-3. Tạo backup trước khi thay đổi quan trọng
-4. Sử dụng index hợp lý
-5. Viết query rõ ràng, dễ đọc
-
-**Chúc bạn học tốt MySQL! 🚀**
-
----
-
-*Tài liệu được tạo ngày: 28/12/2025*
